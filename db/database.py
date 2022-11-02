@@ -127,7 +127,7 @@ def add_key(userName, userKey, createDate, expDate):
 
         cnx = mysql.connector.connect(**key_db)
         cursor = cnx.cursor()
-
+        print(userName, userKey, createDate, expDate)
         values = (userName, userKey, createDate, expDate)
 
         cursor.execute(insert_command, values)
@@ -135,3 +135,16 @@ def add_key(userName, userKey, createDate, expDate):
         cursor.close()
         cnx.close()
         return True
+
+
+def get_all_key_data():
+    select_command = "SELECT * FROM keydata"
+
+    cnx = mysql.connector.connect(**key_db)
+    cursor = cnx.cursor()
+
+    cursor.execute(select_command)
+
+    result = cursor.fetchall()
+
+    return result
