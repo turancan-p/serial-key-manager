@@ -106,6 +106,38 @@ def delete_all():
     cnx.close()
 
 
+def get_user_data(username):
+    select_command = f"SELECT * FROM userdata WHERE userName = '{username}'"
+
+    cnx = mysql.connector.connect(**user_db)
+    cursor = cnx.cursor()
+
+    cursor.execute(select_command)
+
+    result = cursor.fetchall()
+    cursor.close()
+    cnx.close()
+    return result
+
+
+def activate_key(user, key):
+    result = get_key_data(key, user)
+    if result is not None:
+        update_command = f"UPDATE userdata SET userPublic = '{key}' WHERE userName = '{user}'"
+
+        cnx = mysql.connector.connect(**user_db)
+        cursor = cnx.cursor()
+        cursor.execute(update_command)
+        cnx.commit()
+        cursor.close()
+        cnx.close()
+        print("key activated")
+        return True
+    else:
+        print("wrong key")
+        return False
+
+
 # KEY_DB
 key_db = {
     'user': 'root',
@@ -165,35 +197,3 @@ def get_key_data(key, username):
         return result
     else:
         return None
-
-
-def get_user_data(username):
-    select_command = f"SELECT * FROM userdata WHERE userName = '{username}'"
-
-    cnx = mysql.connector.connect(**user_db)
-    cursor = cnx.cursor()
-
-    cursor.execute(select_command)
-
-    result = cursor.fetchall()
-    cursor.close()
-    cnx.close()
-    return result
-
-
-def activate_key(user, key):
-    result = get_key_data(key, user)
-    if result is not None:
-        update_command = f"UPDATE userdata SET userPublic = '{key}' WHERE userName = '{user}'"
-
-        cnx = mysql.connector.connect(**user_db)
-        cursor = cnx.cursor()
-        cursor.execute(update_command)
-        cnx.commit()
-        cursor.close()
-        cnx.close()
-        print("key activated")
-        return True
-    else:
-        print("wrong key")
-        return False

@@ -1,5 +1,5 @@
 from design.register_menu_design import Ui_register_page
-from db.database import register, delete_all
+from db.database import register
 from PyQt5.QtWidgets import *
 
 
