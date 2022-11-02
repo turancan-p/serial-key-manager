@@ -26,16 +26,14 @@ class LoginMenu(QWidget):
         password = self.login_menu.password_box.text()
         if login_check(username, password):
             test = login_check(username, password)
-            print(test)
             self.main_page.main_menu.id_box.setText(str(test[0]))
             self.main_page.main_menu.username_box.setText(str(test[1]))
             self.main_page.main_menu.authory_box.setText(str(test[6]))
             self.main_page.main_menu.secret_box.setText(str(test[4]))
-            self.main_page.main_menu.public_box.setText(str(test[5]))
             if str(test[6]) == "Admin":
                 self.admin_page.show()
 
             self.main_page.show()
             self.close()
         else:
-            print("Giriş Başarısız")
+            print("Failed")

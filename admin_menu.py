@@ -39,5 +39,5 @@ class AdminPage(QWidget):
             self.admin_menu.key_table.insertRow(row_number)
             i = 0
             while i < 5:
-                self.admin_menu.key_table.setItem(row_number, i, QTableWidgetItem(str(row_data[i])))  # id
+                self.admin_menu.key_table.setItem(row_number, i, QTableWidgetItem(str(row_data[i])))
                 i += 1

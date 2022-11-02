@@ -21,7 +21,6 @@ def username_check(userName):
     cursor.execute(select_command)
 
     for user_name in cursor:
-        print(user_name[1])
         if user_name[1] == userName:
             cursor.close()
             cnx.close()
@@ -146,5 +145,55 @@ def get_all_key_data():
     cursor.execute(select_command)
 
     result = cursor.fetchall()
-
+    cursor.close()
+    cnx.close()
     return result
+
+
+def get_key_data(key, username):
+    select_command = f"SELECT * FROM keydata WHERE userName = '{username}' AND userKey = '{key}'"
+
+    cnx = mysql.connector.connect(**key_db)
+    cursor = cnx.cursor()
+
+    cursor.execute(select_command)
+
+    result = cursor.fetchall()
+    cursor.close()
+    cnx.close()
+    for data in result:
+        return result
+    else:
+        return None
+
+
+def get_user_data(username):
+    select_command = f"SELECT * FROM userdata WHERE userName = '{username}'"
+
+    cnx = mysql.connector.connect(**user_db)
+    cursor = cnx.cursor()
+
+    cursor.execute(select_command)
+
+    result = cursor.fetchall()
+    cursor.close()
+    cnx.close()
+    return result
+
+
+def activate_key(user, key):
+    result = get_key_data(key, user)
+    if result is not None:
+        update_command = f"UPDATE userdata SET userPublic = '{key}' WHERE userName = '{user}'"
+
+        cnx = mysql.connector.connect(**user_db)
+        cursor = cnx.cursor()
+        cursor.execute(update_command)
+        cnx.commit()
+        cursor.close()
+        cnx.close()
+        print("key activated")
+        return True
+    else:
+        print("wrong key")
+        return False
